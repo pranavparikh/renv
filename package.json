@@ -1,6 +1,6 @@
 {
   "name": "testarmada-renv",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Mix environment variables into current bash context from a remote location, with profiles",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/TestArmada/renv/issues"
+  },
+  "bin": {
+    "renv": "./bin/renv"
   },
   "homepage": "https://github.com/TestArmada/renv#readme",
   "dependencies": {
