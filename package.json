@@ -1,0 +1,28 @@
+{
+  "name": "testarmada-renv",
+  "version": "1.0.0",
+  "description": "Mix environment variables into current bash context from a remote location, with profiles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TestArmada/renv.git"
+  },
+  "contributors": [
+    {
+      "name": "Maciej Adwent",
+      "url": "http://github.com/Maciek416"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TestArmada/renv/issues"
+  },
+  "homepage": "https://github.com/TestArmada/renv#readme",
+  "dependencies": {
+    "request": "^2.67.0",
+    "yargs": "^3.31.0"
+  }
+}

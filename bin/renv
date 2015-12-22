@@ -1,0 +1,64 @@
+#!/usr/bin/env node
+
+var argv = require("yargs")
+  .usage("Usage: $0 <config location> [profile]")
+  .example("$0 http://server/env.json prod", "Use env 'prod' from env.json on server")
+  .example("$0 http://server/env.json", "Use first or only environment encountered at env.json on server")
+  .demand(1)
+  .argv;
+
+var request = require("request");
+
+var environmentLocation = argv._[0];
+var environmentName;
+
+if (argv._.length > 1) {
+  environmentName = argv._[1];
+}
+
+request(environmentLocation, function (error, response, body) {
+
+  if (error) {
+    console.error(error);
+    process.exit(1);
+  } else {
+  
+    try {
+      var environments = JSON.parse(body);
+      if (!environments) {
+        throw new Error("Body is empty or null");
+      }
+
+      if (Object.keys(environments).length === 0) {
+        throw new Error("No environments defined");
+      }
+
+      if (!environmentName) {
+        environmentName = Object.keys(environments)[0];
+      }
+
+      if (!environments.hasOwnProperty(environmentName)) {
+        throw new Error("The environment name " + environmentName + " was not found");
+      }
+
+      if (!environments[environmentName] || typeof environments[environmentName] !== "object") {
+        throw new Error("The environment " + environmentName + " is null, undefined, or not an object");
+      }
+
+      var env = environments[environmentName];
+
+      console.log("echo \"Setting environment " + environmentName + " from " + environmentLocation + "\";");
+
+      Object.keys(env).forEach(function (k) {
+        console.log("echo \"Setting " + k + "\";");
+        console.log("export " + k + "=\"" + env[k] + "\";");
+      });
+
+      console.log("echo Done;");
+
+    } catch (e) {
+      console.error("Could not parse body");
+      process.exit(1);
+    }
+  }
+});
