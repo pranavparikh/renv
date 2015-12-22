@@ -1,5 +1,6 @@
 # renv
-Mix environment variables into current bash context from a remote location, with profiles
+
+Mix environment variables into the current `bash` context from a remote location without `source` or creating a subshell.
 
 # Quick Start:
 
@@ -39,7 +40,7 @@ lighthearted local banana
 
 # :warning: Security Warning
 
-Note: Remote environment settings should only be sourced from machines within a trusted system. Using public sources of environments is not recommended.
+Note: Remote variable values should only be sourced from machines within a secure and trusted environment. Using public or untrusted sources of environments is **not recommended**. `renv` does not lint or check your values for safety.
 
 ## Licenses
 
