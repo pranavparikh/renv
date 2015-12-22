@@ -27,15 +27,21 @@ Next, install `renv` and import your environment using `eval`:
 
 ```shell
 > npm install testarmada-renv
+
 ...
+
 > eval $(./node_modules/.bin/renv https://example.com/env.json local)
+
 Setting environment local from https://example.com/env.json
 Setting SOMEVAR1
 Setting SOMEVAR2
 Setting SOMEVAR3
 Done
+
 > echo $SOMEVAR2
+
 lighthearted local banana
+
 ```
 
 # :warning: Security Warning
