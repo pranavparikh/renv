@@ -44,6 +44,30 @@ lighthearted local banana
 
 ```
 
+# Common Inherited Variables
+
+If you want multiple named environments to inherit from a single common environment, add a named environment called `_` to your JSON file:
+
+```json
+{
+  "_": {
+    "COMMONVAR": "inherited by all other named environments"
+  },
+  "local": {
+    "SOMEVAR1": "123_local",
+    "SOMEVAR2": "lighthearted local banana",
+    "SOMEVAR3": "hello world"
+  },
+  "production": {
+    "SOMEVAR1": "123_prod",
+    "SOMEVAR2": "serious production banana",
+    "SOMEVAR3": "hello serious production world"
+  }
+}
+```
+
+In the above example, using `local` or `production` will inherit `COMMONVAR` from the `_` environment. Variables that appear both in named environments and the common environments will have their values overridden by the value in the named environment.
+
 # :warning: Security Warning
 
 Note: Remote variable values should only be sourced from machines within a secure and trusted environment. Using public or untrusted sources of environments is **not recommended**. `renv` does not lint or check your values for safety.

@@ -8,6 +8,7 @@ var argv = require("yargs")
   .argv;
 
 var request = require("request");
+var _ = require("lodash");
 
 var environmentLocation = argv._[0];
 var environmentName;
@@ -45,8 +46,12 @@ request(environmentLocation, function (error, response, body) {
         throw new Error("The environment " + environmentName + " is null, undefined, or not an object");
       }
 
-      var env = environments[environmentName];
+      var commonEnv = environments._;
+      var env = _.extend({}, commonEnv, environments[environmentName]);
 
+      if (commonEnv) {
+        console.log("echo \"Inheriting from common environment ( _ )\"");
+      }
       console.log("echo \"Setting environment " + environmentName + " from " + environmentLocation + "\";");
 
       Object.keys(env).forEach(function (k) {
