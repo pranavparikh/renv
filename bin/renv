@@ -2,8 +2,10 @@
 
 var argv = require("yargs")
   .usage("Usage: $0 <config location> [profile]")
-  .example("$0 http://server/env.json prod", "Use env 'prod' from env.json on server")
   .example("$0 http://server/env.json", "Use first or only environment encountered at env.json on server")
+  .example("$0 http://server/env.json prod", "Use env 'prod' from env.json on server")
+  .example("$0 http://server/env.json prod-limitworker", "merge and use content from 'prod' and 'limitworker'" +
+     "from env.json on server, latter environment has higher priority")
   .demand(1)
   .argv;
 
@@ -11,10 +13,10 @@ var request = require("request");
 var _ = require("lodash");
 
 var environmentLocation = argv._[0];
-var environmentName;
+var environmentNames;
 
 if (argv._.length > 1) {
-  environmentName = argv._[1];
+  environmentNames = argv._[1].split("-");
 }
 
 request(environmentLocation, function (error, response, body) {
@@ -34,25 +36,30 @@ request(environmentLocation, function (error, response, body) {
         throw new Error("No environments defined");
       }
 
-      if (!environmentName) {
-        environmentName = Object.keys(environments)[0];
+      if (!environmentNames) {
+        environmentNames = [Object.keys(environments)[0]];
       }
-
-      if (!environments.hasOwnProperty(environmentName)) {
-        throw new Error("The environment name " + environmentName + " was not found");
-      }
-
-      if (!environments[environmentName] || typeof environments[environmentName] !== "object") {
-        throw new Error("The environment " + environmentName + " is null, undefined, or not an object");
-      }
-
+      
       var commonEnv = environments._;
-      var env = _.extend({}, commonEnv, environments[environmentName]);
-
       if (commonEnv) {
         console.log("echo \"Inheriting from common environment ( _ )\"");
       }
-      console.log("echo \"Setting environment " + environmentName + " from " + environmentLocation + "\";");
+
+      var env = _.extend({}, commonEnv);
+
+      _.forEach(environmentNames, function(environmentName){
+        console.log(environmentName)
+        if (!environments.hasOwnProperty(environmentName)) {
+          throw new Error("The environment name " + environmentName + " was not found");
+        }
+
+        if (!environments[environmentName] || typeof environments[environmentName] !== "object") {
+          throw new Error("The environment " + environmentName + " is null, undefined, or not an object");
+        }
+
+        env = _.extend({}, env, environments[environmentName]);
+        console.log("echo \"Setting environment " + environmentName + " from " + environmentLocation + "\";");
+      });
 
       Object.keys(env).forEach(function (k) {
         console.log("echo \"Setting " + k + "\";");
