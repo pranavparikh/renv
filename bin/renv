@@ -42,13 +42,12 @@ request(environmentLocation, function (error, response, body) {
       
       var commonEnv = environments._;
       if (commonEnv) {
-        console.log("echo \"Inheriting from common environment ( _ )\"");
+        console.log("echo \"Inheriting from common environment ( _ )\";");
       }
 
       var env = _.extend({}, commonEnv);
 
       _.forEach(environmentNames, function(environmentName){
-        console.log(environmentName)
         if (!environments.hasOwnProperty(environmentName)) {
           throw new Error("The environment name " + environmentName + " was not found");
         }
