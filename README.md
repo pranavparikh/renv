@@ -68,6 +68,23 @@ If you want multiple named environments to inherit from a single common environm
 
 In the above example, using `local` or `production` will inherit `COMMONVAR` from the `_` environment. Variables that appear both in named environments and the common environments will have their values overridden by the value in the named environment.
 
+# Programmatic Usage
+
+`renv` can also be used programmatically. If you want to fetch an environment in JS code, simply include `renv` as a module and call `getEnv()`, like this:
+
+```javascript
+var renv = require("../lib/renv");
+renv.getEnv("https://example.com/env.json", ["myteam", "ci", "master"], function (err, env) {
+
+  if (err) {
+    console.error("error!", err);
+  } else {
+    console.log("got environment:", env);
+  }
+
+});
+```
+
 # :warning: Security Warning
 
 Note: Remote variable values should only be sourced from machines within a secure and trusted environment. Using public or untrusted sources of environments is **not recommended**. `renv` does not lint or check your values for safety.
