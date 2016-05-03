@@ -15,7 +15,11 @@ var environmentLocation = argv._[0];
 var environmentNames;
 
 if (argv._.length > 1) {
-  environmentNames = argv._[1].split("-");
+  if(argv._[1].indexOf("-") > -1){
+    environmentNames = argv._[1].split("-");
+  }else{
+    environmentNames = argv._[1].split(",");
+  }
 }
 
 renv.getEnv(environmentLocation, environmentNames, function (err, env) {
