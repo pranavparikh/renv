@@ -1,10 +1,10 @@
 {
   "name": "testarmada-renv",
-  "version": "2.2.1",
+  "version": "3.0.0",
   "description": "Mix environment variables into current bash context from a remote location, with profiles",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,9 @@
     "lodash": "^3.10.1",
     "request": "^2.67.0",
     "yargs": "^3.31.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
   }
 }
