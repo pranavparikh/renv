@@ -39,7 +39,7 @@ describe("RenvSet", () => {
 
   });
 
-  describe("Without a supplied prefix", function () {
+  describe("Without a supplied prefix", () => {
 
     it("should throw an error if a leading dot is used without a supplied prefix", () => {
       const badFn = () => new RenvSet(null, ".name");  

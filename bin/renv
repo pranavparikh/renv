@@ -20,13 +20,13 @@ const renvSets = RenvSet.getSets(git.canonicalURL, argv._[1]);
 // An URL that describes where to find the JSON file that describes our environments. 
 const environmentLocation = argv._[0];
 
-renv.getEnv(environmentLocation, renvSets, function (err, env) {
+renv.getEnv(environmentLocation, renvSets, (err, env) => {
   if (err) {
     console.error(err.toString());
     process.exit(1);
   }
 
-  Object.keys(env).forEach(function (k) {
+  Object.keys(env).forEach((k) => {
     console.log("echo \"Setting " + k + "\";");
     console.log("export " + k + "=\"" + env[k] + "\";");
   });
