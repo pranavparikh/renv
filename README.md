@@ -73,7 +73,7 @@ In the above example, using `local` or `production` will inherit `COMMONVAR` fro
 `renv` can also be used programmatically. If you want to fetch an environment in JS code, simply include `renv` as a module and call `getEnv()`, like this:
 
 ```javascript
-var renv = require("../lib/renv");
+var renv = require("testarmada-renv");
 renv.getEnv("https://example.com/env.json", ["myteam", "ci", "master"], function (err, env) {
 
   if (err) {
@@ -84,6 +84,8 @@ renv.getEnv("https://example.com/env.json", ["myteam", "ci", "master"], function
 
 });
 ```
+
+Please also see the programmatic API example on sub-environments and git project detection below. 
 
 # Defining Sub-environments
 
@@ -181,6 +183,26 @@ For example, if you have the following JSON environment file:
 ```
  
 The above snippet will inherit the common environment (`_`), followed by the project environment (`git@github.com:MyOrg/myproject.git`), followed by the sub-environment (`master`).
+
+# Using Git Sub-Environments Programmatically 
+
+If you want to auto-detect a git environment via `renv`'s programmatic API, use `renv.parse()`:
+
+```javascript
+var renv = require("testarmada-renv");
+// Use dot notation with renv.parse() to ask renv to auto-detect the sub-environment by the current git project. 
+renv.getEnv("https://example.com/env.json", renv.parse(".master")], function (err, env) {
+
+  if (err) {
+    console.error("error!", err);
+  } else {
+    console.log("got environment:", env);
+  }
+
+});
+```
+
+See the section above for a JSON file example for this use case.
 
 # :warning: Security Warning
 
