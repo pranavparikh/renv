@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-var argv = require("yargs")
-  .usage("Usage: $0 <config location> [profile]")
+const version = require("../package.json").version;
+const argv = require("yargs")
+  .usage("renv v" + version + "\nUsage: $0 <config location> [profile]")
   .example("$0 http://server/env.json", "Use first or only environment encountered at env.json on server")
   .example("$0 http://server/env.json prod", "Use env 'prod' from env.json on server")
   .example("$0 http://server/env.json prod-limitworker", "merge and use content from 'prod' and 'limitworker'" +
@@ -9,26 +10,23 @@ var argv = require("yargs")
   .demand(1)
   .argv;
 
-var renv = require("../lib/renv");
+const renv = require("../lib/renv");
+const git = require("../lib/gitutil");
+const RenvSet = require("../lib/renvset");
 
-var environmentLocation = argv._[0];
-var environmentNames;
+// A list of sets that will be combined to construct the environment 
+const renvSets = RenvSet.getSets(git.canonicalURL, argv._[1]);
 
-if (argv._.length > 1) {
-  if(argv._[1].indexOf("-") > -1){
-    environmentNames = argv._[1].split("-");
-  }else{
-    environmentNames = argv._[1].split(",");
-  }
-}
+// An URL that describes where to find the JSON file that describes our environments. 
+const environmentLocation = argv._[0];
 
-renv.getEnv(environmentLocation, environmentNames, function (err, env) {
+renv.getEnv(environmentLocation, renvSets, (err, env) => {
   if (err) {
     console.error(err.toString());
     process.exit(1);
   }
 
-  Object.keys(env).forEach(function (k) {
+  Object.keys(env).forEach((k) => {
     console.log("echo \"Setting " + k + "\";");
     console.log("export " + k + "=\"" + env[k] + "\";");
   });

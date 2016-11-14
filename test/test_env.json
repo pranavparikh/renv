@@ -1,0 +1,20 @@
+{
+  "_": {
+    "COMMONVAR1": "abc123" 
+  },
+
+  "project1": {
+    "PROJECTVAR1": "abc123",
+
+    "stage": {
+      "pr": {
+        "PROJECTVAR2": "def456"
+      },
+
+      "master": {
+        "PROJECTVAR2": "ghi789",
+        "PROJECTVAR3": "jkl012"
+      }
+    }
+  }
+}
