@@ -16,5 +16,20 @@
         "PROJECTVAR3": "jkl012"
       }
     }
+  },
+
+  "git@github.com:TestArmada/renv.git": {
+    "PROJECTVAR1": "xyz999",
+
+    "stage": {
+      "pr": {
+        "PROJECTVAR2": "yyy432"
+      },
+
+      "master": {
+        "PROJECTVAR2": "yyy999",
+        "PROJECTVAR3": "zzz111"
+      }
+    }
   }
 }
