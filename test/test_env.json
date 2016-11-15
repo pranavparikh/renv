@@ -3,6 +3,10 @@
     "COMMONVAR1": "abc123" 
   },
 
+  "sharedsettings": {
+    "SHAREDVAR1": "987cba"
+  },
+
   "project1": {
     "PROJECTVAR1": "abc123",
 
