@@ -31,9 +31,9 @@ describe("RenvSet", () => {
       expect(rs.name).to.equal("name");
     });
 
-    it("should set a supplied prefix if no prefix is given in the name itself", () => {
+    it("should NOT set a supplied prefix if dot notation isn't used", () => {
       const rs = new RenvSet(PREFIX, "name");
-      expect(rs.prefix).to.equal(PREFIX);
+      expect(rs.prefix).to.equal(null);
       expect(rs.name).to.equal("name");
     });
 

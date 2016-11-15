@@ -15,6 +15,14 @@ describe("renv", () => {
         });
       });
 
+      it("should support shallow environments", () => {
+        renv.getEnv(TESTFILE, ["sharedsettings"], (err, env) => {
+          expect(env.COMMONVAR1).to.equal("abc123");
+          expect(env.SHAREDVAR1).to.equal("987cba");
+          expect(Object.keys(env).length).to.equal(2);
+        });
+      });
+
       it("should get a environment with no stage", () => {
         renv.getEnv(TESTFILE, ["project1"], (err, env) => {
           expect(env.COMMONVAR1).to.equal("abc123");
@@ -55,6 +63,16 @@ describe("renv", () => {
         });
       });
 
+      it("should tolerate spaces and the same results as the Basic API", () => {
+        renv.getEnv(TESTFILE, renv.parse("   project1.pr,    project1.master   "), (err, env) => {
+          expect(env.COMMONVAR1).to.equal("abc123");
+          expect(env.PROJECTVAR1).to.equal("abc123");
+          expect(env.PROJECTVAR2).to.equal("ghi789");
+          expect(env.PROJECTVAR3).to.equal("jkl012");
+          expect(Object.keys(env).length).to.equal(4);
+        });
+      });
+
       it("should detect the git project", () => {
         renv.getEnv(TESTFILE, renv.parse(".master"), (err, env) => {
           expect(env.COMMONVAR1).to.equal("abc123");
@@ -62,6 +80,25 @@ describe("renv", () => {
           expect(env.PROJECTVAR2).to.equal("yyy999");
           expect(env.PROJECTVAR3).to.equal("zzz111");
           expect(Object.keys(env).length).to.equal(4);
+        });
+      });
+
+      it("should support shallow environments", () => {
+        renv.getEnv(TESTFILE, renv.parse("sharedsettings"), (err, env) => {
+          expect(env.COMMONVAR1).to.equal("abc123");
+          expect(env.SHAREDVAR1).to.equal("987cba");
+          expect(Object.keys(env).length).to.equal(2);
+        });
+      });
+
+      it("should support a mixture of shallow environments and dot notation", () => {
+        renv.getEnv(TESTFILE, renv.parse("sharedsettings,.master"), (err, env) => {
+          expect(env.COMMONVAR1).to.equal("abc123");
+          expect(env.SHAREDVAR1).to.equal("987cba");
+          expect(env.PROJECTVAR1).to.equal("xyz999");
+          expect(env.PROJECTVAR2).to.equal("yyy999");
+          expect(env.PROJECTVAR3).to.equal("zzz111");
+          expect(Object.keys(env).length).to.equal(5);
         });
       });
 
