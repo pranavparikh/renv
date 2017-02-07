@@ -31,6 +31,12 @@ describe("RenvSet", () => {
       expect(rs.name).to.equal("name");
     });
 
+    it("should set a supplied prefix if the set name is a dot", () => {
+      const rs = new RenvSet(PREFIX, ".");
+      expect(rs.prefix).to.equal(PREFIX);
+      expect(rs.name).to.equal(".");
+    });
+
     it("should NOT set a supplied prefix if dot notation isn't used", () => {
       const rs = new RenvSet(PREFIX, "name");
       expect(rs.prefix).to.equal(null);
@@ -56,6 +62,11 @@ describe("RenvSet", () => {
       const rs = new RenvSet(null, "name");
       expect(rs.prefix).to.equal(null);
       expect(rs.name).to.equal("name");
+    });
+
+    it("should throw an error if no prefix is given in the name itself and the set name is a dot", () => {
+      const badFn = () => new RenvSet(null, ".");
+      expect(badFn).to.throw(Error);
     });
 
   });

@@ -184,6 +184,14 @@ For example, if you have the following JSON environment file:
  
 The above snippet will inherit the common environment (`_`), followed by the project environment (`git@github.com:MyOrg/myproject.git`), followed by the sub-environment (`master`).
 
+To just get the project environment with no sub-environment, simply use a dot (`.`):
+
+```shell
+> eval $(./node_modules/.bin/renv https://example.com/env.json .)
+```
+
+The above snippet will inherit the common environment (`_`), followed by the project environment (`git@github.com:MyOrg/myproject.git`) (i.e. just `THRESHOLD` in the above example).
+
 # Using Git Sub-Environments Programmatically 
 
 If you want to auto-detect a git environment via `renv`'s programmatic API, use `renv.parse()`:
