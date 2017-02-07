@@ -83,6 +83,14 @@ describe("renv", () => {
         });
       });
 
+      it("should detect the git project and return the shallow set when dot notation is used", () => {
+        renv.getEnv(TESTFILE, renv.parse("."), (err, env) => {
+          expect(env.COMMONVAR1).to.equal("abc123");
+          expect(env.PROJECTVAR1).to.equal("xyz999");
+          expect(Object.keys(env).length).to.equal(2);
+        });
+      });
+
       it("should support shallow environments", () => {
         renv.getEnv(TESTFILE, renv.parse("sharedsettings"), (err, env) => {
           expect(env.COMMONVAR1).to.equal("abc123");
