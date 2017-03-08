@@ -1,6 +1,6 @@
 {
   "name": "testarmada-renv",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Mix environment variables into current bash context from a remote location, with profiles",
   "main": "index.js",
   "scripts": {
